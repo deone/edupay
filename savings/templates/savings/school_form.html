@@ -7,7 +7,7 @@
     <meta name="author" content="">
     <!-- <link rel="icon" href="../../../../favicon.ico"> -->
   
-    <title>EduPay &ndash; Register School</title>
+    <title>EduPay &ndash; Sign Up School</title>
   
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -28,8 +28,6 @@
             {% csrf_token %}
             {{ form.non_field_errors }}
             <div class="mb-3">
-              <!-- <label for="school_name">School Name</label>
-              <input type="text" class="form-control" id="school_name" placeholder="St. Alexis International School" required> -->
               <label for="{{ form.name.id_for_label }}">School Name</label>
               {{ form.name.errors }}
               {{ form.name }}
@@ -37,22 +35,11 @@
                 Please enter a valid school name.
               </div>
             </div>
-            <!-- <input type="submit" value="Submit" /> -->
-            <button class="btn btn-primary btn-lg btn-block" type="submit">Submit</button>
-          </form>
-
-          <!-- <form class="needs-validation" novalidate>
-            <div class="mb-3">
-              <label for="school_name">School Name</label>
-              <input type="text" class="form-control" id="school_name" placeholder="St. Alexis International School" required>
-              <div class="invalid-feedback">
-                Please enter a valid school name.
-              </div>
-            </div>
 
             <div class="mb-3">
-              <label for="address">Address</label>
-              <input type="text" class="form-control" id="address" placeholder="12 Main St, Ebute-Metta" required>
+              <label for="{{ form.address.id_for_label }}">Address</label>
+              {{ form.address.errors }}
+              {{ form.address }}
               <div class="invalid-feedback">
                 Please enter your address.
               </div>
@@ -60,15 +47,17 @@
 
             <div class="row">
               <div class="col-md-6 mb-3">
-                <label for="school_head_name">Name of School Head</label>
-                <input type="text" class="form-control" id="school_head_name" placeholder="Seyi Chukwuka" required>
+                <label for="{{ form.name_of_head.id_for_label }}">Name of School Head</label>
+                {{ form.name_of_head.errors }}
+                {{ form.name_of_head }}
                 <div class="invalid-feedback">
                   Valid name is required.
                 </div>
               </div>
               <div class="col-md-6 mb-3">
-                <label for="phone_number">Phone Number</label>
-                <input type="text" class="form-control" id="phone_number" placeholder="07033445566" required>
+                <label for="{{ form.phone_number.id_for_label }}">Phone Number</label>
+                {{ form.phone_number.errors }}
+                {{ form.phone_number }}
                 <div class="invalid-feedback">
                   Valid phone number is required.
                 </div>
@@ -77,23 +66,24 @@
 
             <div class="row">
               <div class="col-md-6 mb-3">
-                <label for="email">Email</label>
-                <input type="email" class="form-control" id="email" placeholder="you@example.com" required>
+                <label for="{{ form.email.id_for_label }}">Email</label>
+                {{ form.email.errors }}
+                {{ form.email }}
                 <div class="invalid-feedback">
                   Valid email is required.
                 </div>
               </div>
               <div class="col-md-6 mb-3">
-                <label for="password">Password</label>
-                <input type="password" class="form-control" id="password" required>
+                <label for="{{ form.password.id_for_label }}">Password</label>
+                {{ form.password.errors }}
+                {{ form.password }}
                 <div class="invalid-feedback">
                   Enter password.
                 </div>
               </div>
             </div>
-
             <button class="btn btn-primary btn-lg btn-block" type="submit">Submit</button>
-          </form> -->
+          </form>
         </div>
       </div>
       <footer class="my-5 pt-5 text-muted text-center text-small">
