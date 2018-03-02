@@ -24,7 +24,24 @@
       </div>    
       <div class="row">
         <div class="col-md-8 offset-md-2">
-          <form class="needs-validation" novalidate>
+          <form action="/your-name/" method="post" class="needs-validation" novalidate>
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+            <div class="mb-3">
+              <!-- <label for="school_name">School Name</label>
+              <input type="text" class="form-control" id="school_name" placeholder="St. Alexis International School" required> -->
+              <label for="{{ form.name.id_for_label }}">School Name</label>
+              {{ form.name.errors }}
+              {{ form.name }}
+              <div class="invalid-feedback">
+                Please enter a valid school name.
+              </div>
+            </div>
+            <!-- <input type="submit" value="Submit" /> -->
+            <button class="btn btn-primary btn-lg btn-block" type="submit">Submit</button>
+          </form>
+
+          <!-- <form class="needs-validation" novalidate>
             <div class="mb-3">
               <label for="school_name">School Name</label>
               <input type="text" class="form-control" id="school_name" placeholder="St. Alexis International School" required>
@@ -76,11 +93,11 @@
             </div>
 
             <button class="btn btn-primary btn-lg btn-block" type="submit">Submit</button>
-          </form>
+          </form> -->
         </div>
       </div>
       <footer class="my-5 pt-5 text-muted text-center text-small">
-        <p class="mb-1">&copy; 2017-2018 Company Name</p>
+        <p class="mb-1">&copy; 2017-2018 EduPay</p>
         <ul class="list-inline">
           <li class="list-inline-item"><a href="#">Privacy</a></li>
           <li class="list-inline-item"><a href="#">Terms</a></li>
