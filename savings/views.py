@@ -9,3 +9,4 @@ from forms import SchoolForm
 class SchoolCreate(CreateView):
     form_class = SchoolForm
     template_name = 'savings/school_form.html'
+    success_url = '/school/new'
