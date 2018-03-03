@@ -11,6 +11,8 @@ class School(models.Model):
     address = models.CharField(_('address'), max_length=255)
     name_of_head = models.CharField(_('name of school head'), max_length=50)
     phone_number = models.CharField(_('phone number'), max_length=11)
+    email = models.EmailField(_('email'))
+    password = models.CharField(_('password'), max_length=128)
 
     def __str__(self):
         return self.name
