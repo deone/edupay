@@ -19,8 +19,8 @@ class School(models.Model):
     pass """
 
 class Agent(models.Model):
-    first_name = models.CharField(_('name'), max_length=25)
-    last_name = models.CharField(_('name'), max_length=25)
+    first_name = models.CharField(_('first name'), max_length=25)
+    last_name = models.CharField(_('last name'), max_length=25)
     house_address = models.CharField(_('house address'), max_length=255)
     work_address = models.CharField(_('work address'), max_length=255)
     account_number = models.CharField(_('account number'), max_length=10)

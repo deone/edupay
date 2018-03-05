@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 
-from models import School
+from models import School, Agent
 
 class SchoolForm(forms.Form):
     name = forms.CharField(label=_('School name'), max_length=50, widget=forms.TextInput(attrs={
@@ -38,3 +38,12 @@ class SchoolForm(forms.Form):
         user = User.objects.create_user(email, email, password)
         school = School.objects.create(
             user=user, phone_number=phone_number, name_of_head=name_of_head, address=address, name=name)
+
+class AgentForm(forms.ModelForm):
+    class Meta:
+        model = Agent
+        fields = '__all__'
+
+    def __init__(self, *args, **kwargs):
+        super(AgentForm, self).__init__(*args, **kwargs)
+        self.label_suffix = ''
