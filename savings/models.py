@@ -23,6 +23,7 @@ class Agent(models.Model):
     house_address = models.CharField(_('house address'), max_length=255)
     work_address = models.CharField(_('work address'), max_length=255)
     account_number = models.CharField(_('account number'), max_length=10)
+    account_name = models.CharField(_('account name'), max_length=50)
     bank_name = models.CharField(_('bank name'), max_length=50)
 
     def __str__(self):
