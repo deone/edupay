@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView
 
-from forms import SchoolForm
+from forms import SchoolForm, AgentForm
 from models import Agent
 
 def create_school(request):
@@ -22,5 +22,5 @@ def create_school(request):
 
 class AgentCreate(CreateView):
     model = Agent
-    fields = '__all__'
+    form_class = AgentForm
     success_url = '/agent/new'

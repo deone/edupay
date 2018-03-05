@@ -43,6 +43,25 @@ class AgentForm(forms.ModelForm):
     class Meta:
         model = Agent
         fields = '__all__'
+        widgets = {
+            'first_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'house_address': forms.TextInput(attrs={
+                'class': 'form-control', 'placeholder': 'House 5, B Close, Festac Town'
+            }),
+            'work_address': forms.TextInput(attrs={
+                'class': 'form-control', 'placeholder': '3, Broad Street, Marina'
+            }),
+            'account_name': forms.TextInput(attrs={
+                'class': 'form-control'
+            }),
+            'bank_name': forms.Select(attrs={
+                'class': 'custom-select d-block w-100'
+            }),
+            'account_number': forms.TextInput(attrs={
+                'class': 'form-control'
+            })
+        }
 
     def __init__(self, *args, **kwargs):
         super(AgentForm, self).__init__(*args, **kwargs)

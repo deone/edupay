@@ -19,13 +19,22 @@ class School(models.Model):
     pass """
 
 class Agent(models.Model):
+    BANK_CHOICES = (
+        ('', 'Choose...'),
+        ('GTBank', 'GTBank'),
+        ('UBA', 'UBA'),
+        ('First Bank', 'First Bank'),
+        ('Union Bank', 'Union Bank'),
+        ('Ecobank', 'Ecobank'),
+    )
+
     first_name = models.CharField(_('first name'), max_length=25)
     last_name = models.CharField(_('last name'), max_length=25)
     house_address = models.CharField(_('house address'), max_length=255)
     work_address = models.CharField(_('work address'), max_length=255)
     account_number = models.CharField(_('account number'), max_length=10)
     account_name = models.CharField(_('account name'), max_length=50)
-    bank_name = models.CharField(_('bank name'), max_length=50)
+    bank_name = models.CharField(_('bank name'), max_length=25, choices=BANK_CHOICES)
 
     def __str__(self):
         return self.name
