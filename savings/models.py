@@ -16,7 +16,14 @@ class School(models.Model):
         return self.name
 
 """ class Parent(models.Model):
-    pass
+    pass """
 
 class Agent(models.Model):
-    pass """
+    name = models.CharField(_('name'), max_length=50)
+    house_address = models.CharField(_('house address'), max_length=255)
+    work_address = models.CharField(_('work address'), max_length=255)
+    account_number = models.CharField(_('account number'), max_length=10)
+    bank_name = models.CharField(_('bank name'), max_length=50)
+
+    def __str__(self):
+        return self.name
