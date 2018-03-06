@@ -24,18 +24,19 @@ class SchoolForm(forms.Form):
     email = forms.EmailField(label=_('Email'), widget=forms.EmailInput(attrs={
                 'placeholder': 'you@example.com',
                 'class': 'form-control'
-            }))
+            }), required=False)
     password = forms.CharField(label=_('Password'), widget=forms.PasswordInput(attrs={
                 'class': 'form-control'
             }))
 
     def save(self):
         data = self.cleaned_data
-        email, password = data['email'], data['password']
+        password = data['password']
+        email = data.get('email', None)
         phone_number, name_of_head = '0' + str(data['phone_number']), data['name_of_head']
         name, address = data['name'], data['address']
 
-        user = User.objects.create_user(email, email, password)
+        user = User.objects.create_user(phone_number, email, password)
         school = School.objects.create(
             user=user, phone_number=phone_number, name_of_head=name_of_head, address=address, name=name)
 
