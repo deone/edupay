@@ -2,9 +2,9 @@ from django import forms
 from django.contrib.auth.forms import AuthenticationForm
 
 class LoginForm(AuthenticationForm):
-    username = forms.CharField(label='Email address', widget=forms.EmailInput(attrs={
+    username = forms.CharField(label='Phone number', widget=forms.TextInput(attrs={
         'class': 'form-control', 
-        'placeholder': 'Email address'
+        'placeholder': 'Phone number'
     }))
     password = forms.CharField(label='Password', widget=forms.PasswordInput(attrs={
         'class': 'form-control',
