@@ -5,20 +5,34 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 
-class School(models.Model):
+class EduPayUser(models.Model):
+    class Meta:
+        abstract = True
+
     user = models.ForeignKey(User)
+    phone_number = models.CharField(_('phone number'), max_length=11)
+
+class School(EduPayUser):
     name = models.CharField(_('name'), max_length=100)
     address = models.CharField(_('address'), max_length=255)
     name_of_head = models.CharField(_('name of school head'), max_length=50)
-    phone_number = models.CharField(_('phone number'), max_length=11)
 
     def __str__(self):
         return self.name
 
-""" class Parent(models.Model):
-    pass """
+class Person(EduPayUser):
+    class Meta:
+        abstract = True
 
-class Agent(models.Model):
+    first_name = models.CharField(_('first name'), max_length=25)
+    last_name = models.CharField(_('last name'), max_length=25)
+    house_address = models.CharField(_('house address'), max_length=255)
+    work_address = models.CharField(_('work address'), max_length=255)
+
+class Parent(Person):
+    user = models.ForeignKey(User)
+
+class Agent(Person):
     BANK_CHOICES = (
         ('', 'Choose...'),
         ('GTBank', 'GTBank'),
@@ -28,10 +42,6 @@ class Agent(models.Model):
         ('Ecobank', 'Ecobank'),
     )
 
-    first_name = models.CharField(_('first name'), max_length=25)
-    last_name = models.CharField(_('last name'), max_length=25)
-    house_address = models.CharField(_('house address'), max_length=255)
-    work_address = models.CharField(_('work address'), max_length=255)
     account_number = models.CharField(_('account number'), max_length=10)
     account_name = models.CharField(_('account name'), max_length=50)
     bank_name = models.CharField(_('bank name'), max_length=25, choices=BANK_CHOICES)
