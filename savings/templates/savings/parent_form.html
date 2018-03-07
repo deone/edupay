@@ -6,12 +6,12 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <!-- <link rel="icon" href="../../../../favicon.ico"> -->
-    
-    <title>EduPay &ndash; Agent Sign Up</title>
-    
+  
+    <title>EduPay &ndash; Parent Sign Up</title>
+  
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    
+  
     <!-- Custom styles for this template -->
     <link href="https://getbootstrap.com/docs/4.0/examples/checkout/form-validation.css" rel="stylesheet">
   </head>
@@ -19,15 +19,15 @@
   <body class="bg-light">
     <div class="container">
       <div class="py-5 text-center">
-        <h2>Agent Sign Up</h2>
+        <h2>Parent Sign Up</h2>
         <!-- <p class="lead">Below is an example form built entirely with Bootstrap's form controls. Each required form group has a validation state that can be triggered by attempting to submit the form without completing it.</p> -->
       </div>
       <div class="row">
         <div class="col-md-8 offset-md-2">
-          <h4 class="mb-3">Personal details</h4>
           <form method="post" class="needs-validation" novalidate>
             {% csrf_token %}
             {{ form.non_field_errors }}
+
             <div class="row">
               <div class="col-md-6 mb-3">
                 {{ form.first_name.label_tag }}
@@ -67,35 +67,30 @@
               </div>
             </div>
 
-            <hr class="mb-4">
-            <h4 class="mb-3">Bank details</h4>
-
             <div class="row">
               <div class="col-md-5 mb-3">
-                {{ form.account_name.label_tag }}
-                {{ form.account_name.errors }}
-                {{ form.account_name }}
-                <div class="invalid-feedback">
-                  Please provide account name.
-                </div>
+                <label for="{{ form.email.id_for_label }}">Email <span class="text-muted">(Optional)</span></label>
+                {{ form.email.errors }}
+                {{ form.email }}
               </div>
               <div class="col-md-4 mb-3">
-                {{ form.bank_name.label_tag }}
-                {{ form.bank_name.errors }}
-                {{ form.bank_name }}
+                {{ form.phone_number.label_tag }}
+                {{ form.phone_number.errors }}
+                {{ form.phone_number }}
                 <div class="invalid-feedback">
-                  Please select a bank.
+                  Please provide a phone number.
                 </div>
               </div>
               <div class="col-md-3 mb-3">
-                {{ form.account_number.label_tag }}
-                {{ form.account_number.errors }}
-                {{ form.account_number }}
+                {{ form.password.label_tag }}
+                {{ form.password.errors }}
+                {{ form.password }}
                 <div class="invalid-feedback">
-                  Account number required.
+                  Password is required.
                 </div>
               </div>
             </div>
+
             <hr class="mb-4">
             <button class="btn btn-primary btn-lg btn-block" type="submit">Submit</button>
           </form>
