@@ -39,7 +39,7 @@ class SchoolForm(CreateBaseForm):
         name, address = data['name'], data['address']
 
         user = User.objects.create_user(phone_number, email, password)
-        school = School.objects.create(
+        School.objects.create(
             user=user, phone_number=phone_number, name_of_head=name_of_head, address=address, name=name)
 
 class PersonForm(forms.Form):
@@ -56,33 +56,36 @@ class PersonForm(forms.Form):
                 'class': 'form-control', 'placeholder': '3, Broad Street, Marina'
             }))
 
-class AgentForm(forms.ModelForm):
-    class Meta:
-        model = Agent
-        fields = '__all__'
-        widgets = {
-            'first_name': forms.TextInput(attrs={'class': 'form-control'}),
-            'last_name': forms.TextInput(attrs={'class': 'form-control'}),
-            'house_address': forms.TextInput(attrs={
-                'class': 'form-control', 'placeholder': 'House 5, B Close, Festac Town'
-            }),
-            'work_address': forms.TextInput(attrs={
-                'class': 'form-control', 'placeholder': '3, Broad Street, Marina'
-            }),
-            'account_name': forms.TextInput(attrs={
-                'class': 'form-control'
-            }),
-            'bank_name': forms.Select(attrs={
-                'class': 'custom-select d-block w-100'
-            }),
-            'account_number': forms.TextInput(attrs={
-                'class': 'form-control'
-            })
-        }
+class AgentForm(CreateBaseForm, PersonForm):
+    BANK_CHOICES = (
+        ('', 'Choose...'),
+        ('GTBank', 'GTBank'),
+        ('UBA', 'UBA'),
+        ('First Bank', 'First Bank'),
+        ('Union Bank', 'Union Bank'),
+        ('Ecobank', 'Ecobank'),
+    )
+    account_name = forms.CharField(label=_('Account name'), max_length=50, widget=forms.TextInput(
+        attrs={'class': 'form-control'}))
+    bank_name = forms.ChoiceField(label=_('Bank name'), choices=BANK_CHOICES, widget=forms.Select(
+        attrs={'class': 'custom-select d-block w-100'}))
+    account_number = forms.CharField(label=_('Account number'), max_length=10, widget=forms.TextInput(
+        attrs={'class': 'form-control'}))
 
-    def __init__(self, *args, **kwargs):
-        super(AgentForm, self).__init__(*args, **kwargs)
-        self.label_suffix = ''
+    def save(self):
+        data = self.cleaned_data
+        first_name, last_name = data['first_name'], data['last_name']
+        email, password = data.get('email', None), data['password']
+        house_address, work_address = data['house_address'], data['work_address']
+        phone_number, account_number = '0' + str(data['phone_number']), data['account_number']
+        account_name, bank_name = data['account_name'], data['bank_name']
+
+        user = User.objects.create_user(phone_number, email, password)
+        Agent.objects.create(
+            user=user, first_name=first_name, last_name=last_name,
+            house_address=house_address, work_address=work_address,
+            account_name=account_name, account_number=account_number,
+            bank_name=bank_name)
 
 class ParentForm(CreateBaseForm, PersonForm):
     def save(self):
@@ -93,6 +96,6 @@ class ParentForm(CreateBaseForm, PersonForm):
         phone_number = '0' + str(data['phone_number'])
 
         user = User.objects.create_user(phone_number, email, password)
-        parent = Parent.objects.create(
+        Parent.objects.create(
             user=user, first_name=first_name, last_name=last_name,
             house_address=house_address, work_address=work_address)

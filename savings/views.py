@@ -35,6 +35,16 @@ def create_parent(request):
         form = ParentForm(label_suffix='')
     return render(request, 'savings/parent_form.html', {'form': form})
 
+def create_agent(request):
+    if request.method == 'POST':
+        form = AgentForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return login_redirect(request)
+    else:
+        form = AgentForm(label_suffix='')
+    return render(request, 'savings/agent_form.html', {'form': form})
+
 class AgentCreate(CreateView):
     model = Agent
     form_class = AgentForm

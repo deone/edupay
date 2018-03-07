@@ -67,6 +67,30 @@
               </div>
             </div>
 
+            <div class="row">
+              <div class="col-md-5 mb-3">
+                <label for="{{ form.email.id_for_label }}">Email <span class="text-muted">(Optional)</span></label>
+                {{ form.email.errors }}
+                {{ form.email }}
+              </div>
+              <div class="col-md-4 mb-3">
+                {{ form.phone_number.label_tag }}
+                {{ form.phone_number.errors }}
+                {{ form.phone_number }}
+                <div class="invalid-feedback">
+                  Valid phone number is required.
+                </div>
+              </div>
+              <div class="col-md-3 mb-3">
+                {{ form.password.label_tag }}
+                {{ form.password.errors }}
+                {{ form.password }}
+                <div class="invalid-feedback">
+                  Password is required.
+                </div>
+              </div>
+            </div>
+
             <hr class="mb-4">
             <h4 class="mb-3">Bank details</h4>
 

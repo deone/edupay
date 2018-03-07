@@ -15,7 +15,7 @@ urlpatterns = [
     url(r'^logout$', auth_views.logout, {'next_page': '/'}, name='logout'),
     url(r'^dashboard', accounts_views.dashboard, name='dashboard'),
     url(r'^school/new', views.create_school, name='new_school'),
-    url(r'^agent/new', views.AgentCreate.as_view(), name='new_agent'),
+    url(r'^agent/new', views.create_agent, name='new_agent'),
     url(r'^parent/new', views.create_parent, name='new_parent'),
     url(r'^admin/', admin.site.urls),
 ]
