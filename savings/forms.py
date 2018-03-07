@@ -42,6 +42,20 @@ class SchoolForm(CreateBaseForm):
         school = School.objects.create(
             user=user, phone_number=phone_number, name_of_head=name_of_head, address=address, name=name)
 
+class PersonForm(forms.Form):
+    first_name = forms.CharField(label=_('First name'), max_length=25, widget=forms.TextInput(attrs={
+                'class': 'form-control'
+            }))
+    last_name = forms.CharField(label=_('Last name'), max_length=25, widget=forms.TextInput(attrs={
+                'class': 'form-control'
+            }))
+    house_address = forms.CharField(label=_('House address'), max_length=255, widget=forms.TextInput(attrs={
+                'class': 'form-control', 'placeholder': 'House 5, B Close, Festac Town'
+            }))
+    work_address = forms.CharField(label=_('Work address'), max_length=255, widget=forms.TextInput(attrs={
+                'class': 'form-control', 'placeholder': '3, Broad Street, Marina'
+            }))
+
 class AgentForm(forms.ModelForm):
     class Meta:
         model = Agent
@@ -70,20 +84,7 @@ class AgentForm(forms.ModelForm):
         super(AgentForm, self).__init__(*args, **kwargs)
         self.label_suffix = ''
 
-class ParentForm(CreateBaseForm):
-    first_name = forms.CharField(label=_('First name'), max_length=25, widget=forms.TextInput(attrs={
-                'class': 'form-control'
-            }))
-    last_name = forms.CharField(label=_('Last name'), max_length=25, widget=forms.TextInput(attrs={
-                'class': 'form-control'
-            }))
-    house_address = forms.CharField(label=_('House address'), max_length=255, widget=forms.TextInput(attrs={
-                'class': 'form-control', 'placeholder': 'House 5, B Close, Festac Town'
-            }))
-    work_address = forms.CharField(label=_('Work address'), max_length=255, widget=forms.TextInput(attrs={
-                'class': 'form-control', 'placeholder': '3, Broad Street, Marina'
-            }))
-
+class ParentForm(CreateBaseForm, PersonForm):
     def save(self):
         data = self.cleaned_data
         first_name, last_name = data['first_name'], data['last_name']
