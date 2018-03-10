@@ -26,13 +26,21 @@ class Person(EduPayUser):
 
     first_name = models.CharField(_('first name'), max_length=25)
     last_name = models.CharField(_('last name'), max_length=25)
+
+    def get_full_name(self):
+        return '{} {}'.format(self.first_name, self.last_name)
+
+class PersonWithAddress(Person):
+    class Meta:
+        abstract = True
+
     house_address = models.CharField(_('house address'), max_length=255)
     work_address = models.CharField(_('work address'), max_length=255)
 
-class Parent(Person):
+class Parent(PersonWithAddress):
     pass
 
-class Agent(Person):
+class Agent(PersonWithAddress):
     BANK_CHOICES = (
         ('', 'Choose...'),
         ('GTBank', 'GTBank'),
@@ -47,4 +55,11 @@ class Agent(Person):
     bank_name = models.CharField(_('bank name'), max_length=25, choices=BANK_CHOICES)
 
     def __str__(self):
-        return self.name
+        return self.get_full_name()
+
+class Child(Person):
+    school = models.ForeignKey(School)
+    fee_per_term = models.CharField(_('fee per term'), max_length=20)
+
+    def __str__(self):
+        return self.get_full_name()
