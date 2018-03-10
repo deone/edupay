@@ -9,7 +9,7 @@ class EduPayUser(models.Model):
     class Meta:
         abstract = True
 
-    user = models.ForeignKey(User)
+    user = models.OneToOneField(User)
     phone_number = models.CharField(_('phone number'), max_length=11)
 
 class School(EduPayUser):
@@ -30,7 +30,7 @@ class Person(EduPayUser):
     work_address = models.CharField(_('work address'), max_length=255)
 
 class Parent(Person):
-    user = models.ForeignKey(User)
+    pass
 
 class Agent(Person):
     BANK_CHOICES = (
