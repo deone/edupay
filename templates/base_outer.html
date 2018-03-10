@@ -15,5 +15,7 @@
     <!-- Custom styles for this template -->
     {% block css %}{% endblock %}
   </head>
-  {% block body %}{% endblock %}
+  {% block body %}
+    {% block js %}{% endblock %}
+  {% endblock %}
 </html>

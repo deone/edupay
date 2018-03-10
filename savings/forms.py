@@ -103,6 +103,7 @@ class ParentForm(CreateBaseForm, PersonWithAddressForm):
             house_address=house_address, work_address=work_address)
 
 class AddChildForm(PersonForm):
-    school = forms.ModelChoiceField(label=_('School'), queryset=School.objects.all())
+    school = forms.ModelChoiceField(label=_('School'), queryset=School.objects.all(), widget=forms.Select(
+        attrs={'class': 'form-control'}), empty_label='Choose...')
     fee_per_term = forms.CharField(label=_('Fee per term'), max_length=20, widget=forms.NumberInput(
         attrs={'class': 'form-control'}))

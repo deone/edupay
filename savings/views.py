@@ -4,9 +4,10 @@ from __future__ import unicode_literals
 from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
 
-from forms import SchoolForm, AgentForm, ParentForm
 from models import Agent
+from forms import SchoolForm, AgentForm, ParentForm, AddChildForm
 
 def login_redirect(request):
     username, password = request.POST['phone_number'], request.POST['password']
@@ -45,7 +46,10 @@ def create_agent(request):
         form = AgentForm(label_suffix='')
     return render(request, 'savings/agent_form.html', {'form': form})
 
-class AgentCreate(CreateView):
-    model = Agent
-    form_class = AgentForm
-    success_url = '/agent/new'
+@login_required
+def dashboard(request):
+    if request.method == 'POST':
+        form = AddChildForm(request.POST)
+    else:
+        form = AddChildForm(label_suffix='')
+    return render(request, 'savings/dashboard.html', {'form': form})
