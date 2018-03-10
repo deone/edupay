@@ -24,59 +24,105 @@
       <nav class="col-md-2 d-none d-md-block bg-light sidebar">
         <div class="sidebar-sticky">
           <ul class="nav flex-column">
-            <li class="nav-item">
-              <a class="nav-link active" href="#">
-                <span data-feather="users"></span>
-                Children <span class="sr-only">(current)</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">
-                <span data-feather="bar-chart-2"></span>
-                Savings
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">
-                <span data-feather="layers"></span>
-                Payments
-              </a>
-            </li>
+            {% if user.parent %}
+              <li class="nav-item">
+                <a class="nav-link active" href="#">
+                  <span data-feather="users"></span>
+                  Children <span class="sr-only">(current)</span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">
+                  <span data-feather="bar-chart-2"></span>
+                  Savings
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">
+                  <span data-feather="layers"></span>
+                  Payments
+                </a>
+              </li>
+            {% endif %}
           </ul>
         </div>
       </nav>
 
       <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-        <h2>Children</h2>
-        <div class="table-responsive">
-          <table class="table table-striped table-sm">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>School</th>
-                <th>Fee per term</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Lorem</td>
-                <td>ipsum</td>
-                <td>dolor</td>
-                <td><a href="">Edit</a></td>
-              </tr>
-              <tr>
-                <td>sodales</td>
-                <td>ligula</td>
-                <td>in</td>
-                <td><a href="">Edit</a></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-          <h1 class="h2">Add Child</h1>
-        </div>
+        {% if user.parent %}
+          <h2>Children</h2>
+          <div class="table-responsive">
+            <table class="table table-striped table-sm">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>School</th>
+                  <th>Fee per term</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Somto</td>
+                  <td>Amechi</td>
+                  <td>57,000</td>
+                  <td><a href="">Edit</a></td>
+                </tr>
+                <tr>
+                  <td>Sola</td>
+                  <td>Ajayi</td>
+                  <td>55,000</td>
+                  <td><a href="">Edit</a></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+            <h1 class="h2">Add Child</h1>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <form class="needs-validation" novalidate>
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <label for="firstName">First name</label>
+                    <input type="text" class="form-control" id="firstName" placeholder="" value="" required>
+                    <div class="invalid-feedback">
+                      Valid first name is required.
+                    </div>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label for="lastName">Last name</label>
+                    <input type="text" class="form-control" id="lastName" placeholder="" value="" required>
+                    <div class="invalid-feedback">
+                      Valid last name is required.
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <label for="school">School</label>
+                    <input type="text" class="form-control" id="firstName" placeholder="" value="" required>
+                    <div class="invalid-feedback">
+                      School is required.
+                    </div>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label for="fee_per_term">Fee per term</label>
+                    <input type="text" class="form-control" id="lastName" placeholder="" value="" required>
+                    <div class="invalid-feedback">
+                      Fee per term is required.
+                    </div>
+                  </div>
+                </div>
+
+                <hr class="mb-4">
+                <button class="btn btn-primary btn-lg btn-block" type="submit">Submit</button>
+              </form>
+            </div>
+          </div>
+        {% endif %}
       </main>
     </div>
   </div>
