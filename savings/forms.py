@@ -49,6 +49,8 @@ class PersonForm(forms.Form):
     last_name = forms.CharField(label=_('Last name'), max_length=25, widget=forms.TextInput(attrs={
                 'class': 'form-control'
             }))
+
+class PersonWithAddressForm(PersonForm):
     house_address = forms.CharField(label=_('House address'), max_length=255, widget=forms.TextInput(attrs={
                 'class': 'form-control', 'placeholder': 'House 5, B Close, Festac Town'
             }))
@@ -56,7 +58,7 @@ class PersonForm(forms.Form):
                 'class': 'form-control', 'placeholder': '3, Broad Street, Marina'
             }))
 
-class AgentForm(CreateBaseForm, PersonForm):
+class AgentForm(CreateBaseForm, PersonWithAddressForm):
     BANK_CHOICES = (
         ('', 'Choose...'),
         ('GTBank', 'GTBank'),
@@ -87,7 +89,7 @@ class AgentForm(CreateBaseForm, PersonForm):
             account_name=account_name, account_number=account_number,
             bank_name=bank_name)
 
-class ParentForm(CreateBaseForm, PersonForm):
+class ParentForm(CreateBaseForm, PersonWithAddressForm):
     def save(self):
         data = self.cleaned_data
         first_name, last_name = data['first_name'], data['last_name']
@@ -99,3 +101,8 @@ class ParentForm(CreateBaseForm, PersonForm):
         Parent.objects.create(
             user=user, first_name=first_name, last_name=last_name,
             house_address=house_address, work_address=work_address)
+
+class AddChildForm(PersonForm):
+    school = forms.ModelChoiceField(label=_('School'), queryset=School.objects.all())
+    fee_per_term = forms.CharField(label=_('Fee per term'), max_length=20, widget=forms.NumberInput(
+        attrs={'class': 'form-control'}))
