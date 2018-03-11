@@ -131,3 +131,5 @@ STATIC_URL = '/static/'
 LOGIN_URL = '/'
 
 LOGIN_REDIRECT_URL = '/dashboard'
+
+SAVINGS_PERCENT = 75
