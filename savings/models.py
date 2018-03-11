@@ -2,22 +2,21 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from django.utils import timezone
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 
-class EduPayUser(models.Model):
+class DateCreated(models.Model):
+    class Meta:
+        abstract = True
+
+    date_created = models.DateTimeField(default=timezone.now)
+
+class EduPayUser(DateCreated):
     class Meta:
         abstract = True
 
     user = models.OneToOneField(User)
-
-class School(EduPayUser):
-    name = models.CharField(_('name'), max_length=100)
-    address = models.CharField(_('address'), max_length=255)
-    name_of_head = models.CharField(_('name of school head'), max_length=50)
-
-    def __str__(self):
-        return self.name
 
 class Person(models.Model):
     class Meta:
@@ -35,6 +34,14 @@ class PersonWithAddress(Person, EduPayUser):
 
     house_address = models.CharField(_('house address'), max_length=255)
     work_address = models.CharField(_('work address'), max_length=255)
+
+class School(EduPayUser):
+    name = models.CharField(_('name'), max_length=100)
+    address = models.CharField(_('address'), max_length=255)
+    name_of_head = models.CharField(_('name of school head'), max_length=50)
+
+    def __str__(self):
+        return self.name
 
 class Parent(PersonWithAddress):
     pass
@@ -56,7 +63,7 @@ class Agent(PersonWithAddress):
     def __str__(self):
         return self.get_full_name()
 
-class Child(Person):
+class Child(Person, DateCreated):
     parent = models.ForeignKey(Parent)
     school = models.ForeignKey(School)
     fee_per_term = models.CharField(_('fee per term'), max_length=20)
@@ -64,7 +71,7 @@ class Child(Person):
     def __str__(self):
         return self.get_full_name()
 
-class SavingsPlan(models.Model):
+class SavingsPlan(DateCreated):
     FREQUENCY_CHOICES = (
         ('', 'Choose...'),
         ('daily', 'Daily'),
@@ -74,5 +81,6 @@ class SavingsPlan(models.Model):
 
     parent = models.ForeignKey(Parent)
     total_fee = models.IntegerField()
+    amount_to_be_saved = models.IntegerField()
     frequency = models.CharField(max_length=7, choices=FREQUENCY_CHOICES)
     contribution = models.PositiveSmallIntegerField()
