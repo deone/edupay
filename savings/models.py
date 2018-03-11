@@ -63,3 +63,16 @@ class Child(Person):
 
     def __str__(self):
         return self.get_full_name()
+
+class SavingsPlan(models.Model):
+    FREQUENCY_CHOICES = (
+        ('', 'Choose...'),
+        ('daily', 'Daily'),
+        ('weekly', 'Weekly'),
+        ('monthly', 'Monthly'),
+    )
+
+    parent = models.ForeignKey(Parent)
+    total_fee = models.IntegerField()
+    frequency = models.CharField(max_length=7, choices=FREQUENCY_CHOICES)
+    contribution = models.PositiveSmallIntegerField()

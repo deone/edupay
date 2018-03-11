@@ -62,3 +62,9 @@ def dashboard(request):
         context.update({'children': Child.objects.filter(parent=parent), 'form': form})
 
     return render(request, 'savings/dashboard.html', context)
+
+# @must_be_parent
+@login_required
+def savings(request):
+    context = {}
+    return render(request, 'savings/savings.html', context)
