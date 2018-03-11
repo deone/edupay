@@ -58,6 +58,7 @@ class Agent(PersonWithAddress):
         return self.get_full_name()
 
 class Child(Person):
+    parent = models.ForeignKey(Parent)
     school = models.ForeignKey(School)
     fee_per_term = models.CharField(_('fee per term'), max_length=20)
 
