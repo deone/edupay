@@ -7,7 +7,7 @@
   <link href="https://getbootstrap.com/docs/4.0/examples/dashboard/dashboard.css" rel="stylesheet">
 {% endblock %}
 
-{% block body %}
+{% block markup %}
 <body>
   <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
     <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">EduPay</a>
@@ -26,13 +26,13 @@
           <ul class="nav flex-column">
             {% if user.parent %}
               <li class="nav-item">
-                <a class="nav-link active" href="#">
+                <a class="nav-link active" href="{% url 'dashboard' %}">
                   <span data-feather="users"></span>
                   Children <span class="sr-only">(current)</span>
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="{% url 'savings' %}">
                   <span data-feather="bar-chart-2"></span>
                   Savings
                 </a>
@@ -137,42 +137,10 @@
       </main>
     </div>
   </div>
-
-  {% block js %}
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://getbootstrap.com/assets/js/vendor/popper.min.js"></script>
-    <script src="https://getbootstrap.com/dist/js/bootstrap.min.js"></script>
-    <script src="https://getbootstrap.com/assets/js/vendor/holder.min.js"></script>
-    <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
-    <script>
-      feather.replace()
-    </script>
-    <!-- This is already in base_create.html. Don't repeat it -->
-    <script>
-      // Example starter JavaScript for disabling form submissions if there are invalid fields
-      (function() {
-        'use strict';
-  
-        window.addEventListener('load', function() {
-          // Fetch all the forms we want to apply custom Bootstrap validation styles to
-          var forms = document.getElementsByClassName('needs-validation');
-  
-          // Loop over them and prevent submission
-          var validation = Array.prototype.filter.call(forms, function(form) {
-            form.addEventListener('submit', function(event) {
-              if (form.checkValidity() === false) {
-                event.preventDefault();
-                event.stopPropagation();
-              }
-              form.classList.add('was-validated');
-            }, false);
-          });
-        }, false);
-      })();
-    </script>
-  {% endblock %}
-</body>
+{% endblock %}
+{% block page_js %}
+<script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+<script>
+  feather.replace()
+</script>
 {% endblock %}
