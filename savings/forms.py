@@ -35,12 +35,13 @@ class SchoolForm(CreateBaseForm):
         data = self.cleaned_data
         password = data['password']
         email = data.get('email', None)
-        phone_number, name_of_head = '0' + str(data['phone_number']), data['name_of_head']
-        name, address = data['name'], data['address']
-
+        phone_number = '0' + str(data['phone_number'])
         user = User.objects.create_user(phone_number, email, password)
-        School.objects.create(
-            user=user, phone_number=phone_number, name_of_head=name_of_head, address=address, name=name)
+
+        del data['password'], data['email'], data['phone_number']
+
+        data.update({'user': user})
+        School.objects.create(**data)
 
 class PersonForm(forms.Form):
     first_name = forms.CharField(label=_('First name'), max_length=25, widget=forms.TextInput(attrs={
@@ -76,31 +77,26 @@ class AgentForm(CreateBaseForm, PersonWithAddressForm):
 
     def save(self):
         data = self.cleaned_data
-        first_name, last_name = data['first_name'], data['last_name']
         email, password = data.get('email', None), data['password']
-        house_address, work_address = data['house_address'], data['work_address']
-        phone_number, account_number = '0' + str(data['phone_number']), data['account_number']
-        account_name, bank_name = data['account_name'], data['bank_name']
-
+        phone_number = '0' + str(data['phone_number'])
         user = User.objects.create_user(phone_number, email, password)
-        Agent.objects.create(
-            user=user, first_name=first_name, last_name=last_name,
-            house_address=house_address, work_address=work_address,
-            account_name=account_name, account_number=account_number,
-            bank_name=bank_name)
+
+        del data['email'], data['password'], data['phone_number']
+
+        data.update({'user': user})
+        Agent.objects.create(**data)
 
 class ParentForm(CreateBaseForm, PersonWithAddressForm):
     def save(self):
         data = self.cleaned_data
-        first_name, last_name = data['first_name'], data['last_name']
-        email, password = data.get('email', None), data['password']
-        house_address, work_address = data['house_address'], data['work_address']
         phone_number = '0' + str(data['phone_number'])
-
+        email, password = data.get('email', None), data['password']
         user = User.objects.create_user(phone_number, email, password)
-        Parent.objects.create(
-            user=user, first_name=first_name, last_name=last_name,
-            house_address=house_address, work_address=work_address)
+
+        del data['email'], data['password'], data['phone_number']
+
+        data.update({'user': user})
+        Parent.objects.create(**data)
 
 class AddChildForm(PersonForm):
     def __init__(self, *args, **kwargs):
@@ -113,7 +109,6 @@ class AddChildForm(PersonForm):
         attrs={'class': 'form-control'}))
 
     def save(self):
-        # {'first_name': u'Ade', 'last_name': u'Ola', 'school': <School: St. James High School>, 'fee_per_term': u'20000'}
         data = self.cleaned_data
         data.update({'parent': self.parent})
-        Child.objects.create(**self.cleaned_data)
+        Child.objects.create(**data)

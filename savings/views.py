@@ -48,14 +48,16 @@ def create_agent(request):
 
 @login_required
 def dashboard(request):
-    parent = Parent.objects.get(user=request.user)
-    if request.method == 'POST':
-        form = AddChildForm(request.POST, parent=parent)
-        if form.is_valid():
-            form.save()
-    else:
-        form = AddChildForm(label_suffix='', parent=parent)
+    context = {}
+    if hasattr(request.user, 'parent'):
+        parent = Parent.objects.get(user=request.user)
+        if request.method == 'POST':
+            form = AddChildForm(request.POST, parent=parent)
+            if form.is_valid():
+                form.save()
+        else:
+            form = AddChildForm(label_suffix='', parent=parent)
+    
+        context.update({'children': Child.objects.filter(parent=parent), 'form': form})
 
-    context = {'form': form}
-    context.update({'children': Child.objects.filter(parent=parent)})
-    return render(request, 'savings/dashboard.html', {'form': form})
+    return render(request, 'savings/dashboard.html', context)
