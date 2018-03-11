@@ -1,7 +1,5 @@
 {% extends 'savings/base_dash.html' %}
 
-{% block page_title %} &ndash; Dashboard{% endblock %}
-
 {% block dash_content %}
   {% if user.parent %}
     {% include 'savings/includes/children.html' %}

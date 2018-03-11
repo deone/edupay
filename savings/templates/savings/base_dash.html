@@ -1,5 +1,7 @@
 {% extends 'base_outer.html' %}
 
+{% block page_title %} &ndash; Dashboard{% endblock %}
+
 {% block css %}
   <link href="https://getbootstrap.com/docs/4.0/examples/checkout/form-validation.css" rel="stylesheet">
   <link href="https://getbootstrap.com/docs/4.0/examples/dashboard/dashboard.css" rel="stylesheet">
@@ -21,30 +23,11 @@
     <div class="row">
       <nav class="col-md-2 d-none d-md-block bg-light sidebar">
         <div class="sidebar-sticky">
-
           <ul class="nav flex-column">
             {% if user.parent %}
-              <li class="nav-item">
-                <a class="nav-link active" href="{% url 'dashboard' %}">
-                  <span data-feather="users"></span>
-                  Children <span class="sr-only">(current)</span>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'savings' %}">
-                  <span data-feather="bar-chart-2"></span>
-                  Savings
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="layers"></span>
-                  Payments
-                </a>
-              </li>
+              {% include 'savings/includes/parent_nav.html' %}
             {% endif %}
           </ul>
-
         </div>
       </nav>
 

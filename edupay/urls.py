@@ -14,6 +14,7 @@ urlpatterns = [
     }, name='login'),
     url(r'^logout$', auth_views.logout, {'next_page': '/'}, name='logout'),
 
+    url(r'^dashboard/savings', views.savings, name='savings'),
     url(r'^dashboard', views.dashboard, name='dashboard'),
 
     url(r'^school/new', views.create_school, name='new_school'),

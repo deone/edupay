@@ -1,0 +1,20 @@
+{% with urlname=request.resolver_match.url_name %}
+  <li class="nav-item">
+    <a class="nav-link{% if urlname == 'dashboard' %} active{% endif %}" href="{% url 'dashboard' %}">
+      <span data-feather="users"></span>
+      Children {% if urlname == 'dashboard' %}<span class="sr-only">(current)</span>{% endif %}
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link{% if urlname == 'savings' %} active{% endif %}" href="{% url 'savings' %}">
+      <span data-feather="bar-chart-2"></span>
+      Savings {% if urlname == 'savings' %}<span class="sr-only">(current)</span>{% endif %}
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#">
+      <span data-feather="layers"></span>
+      Payments
+    </a>
+  </li>
+{% endwith %}
