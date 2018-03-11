@@ -25,12 +25,11 @@
       <script src="https://getbootstrap.com/assets/js/vendor/popper.min.js"></script>
       <script src="https://getbootstrap.com/dist/js/bootstrap.min.js"></script>
       <script src="https://getbootstrap.com/assets/js/vendor/holder.min.js"></script>
-      {% block page_js %}{% endblock %}
       <script>
         // Example starter JavaScript for disabling form submissions if there are invalid fields
         (function() {
           'use strict';
-    
+
           window.addEventListener('load', function() {
             // Fetch all the forms we want to apply custom Bootstrap validation styles to
             var forms = document.getElementsByClassName('needs-validation');
@@ -49,6 +48,7 @@
         })();
       </script>
     {% endblock %}
+    {% block page_js %}{% endblock %}
     </body>
   {% endblock %}
 </html>
