@@ -10,7 +10,6 @@ class EduPayUser(models.Model):
         abstract = True
 
     user = models.OneToOneField(User)
-    phone_number = models.CharField(_('phone number'), max_length=11)
 
 class School(EduPayUser):
     name = models.CharField(_('name'), max_length=100)
