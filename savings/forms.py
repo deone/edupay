@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 
-from models import School, Agent, Parent, Child
+from models import School, Agent, Parent, Child, SavingsPlan
 
 class CreateBaseForm(forms.Form):
     phone_number = forms.IntegerField(label=_('Phone number'), widget=forms.NumberInput(attrs={
@@ -105,10 +105,20 @@ class AddChildForm(PersonForm):
 
     school = forms.ModelChoiceField(label=_('School'), queryset=School.objects.all(), widget=forms.Select(
         attrs={'class': 'form-control'}), empty_label='Choose...')
-    fee_per_term = forms.CharField(label=_('Fee per term'), max_length=20, widget=forms.NumberInput(
+    fee_per_term = forms.IntegerField(label=_('Fee per term'), widget=forms.NumberInput(
         attrs={'class': 'form-control'}))
 
     def save(self):
         data = self.cleaned_data
         data.update({'parent': self.parent})
         Child.objects.create(**data)
+
+class SavingsPlanForm(forms.Form):
+    total_fee = forms.IntegerField(label=_('Total fee'), widget=forms.NumberInput(
+        attrs={'class': 'form-control'}))
+    amount_to_be_saved = forms.IntegerField(label=_('Amount to be saved'), widget=forms.NumberInput(
+        attrs={'class': 'form-control'}))
+    frequency = forms.ChoiceField(label=_('Frequency'), choices=SavingsPlan.FREQUENCY_CHOICES, widget=forms.Select(
+        attrs={'class': 'form-control'}))
+    contribution = forms.IntegerField(label=_('Contribution'), widget=forms.NumberInput(
+        attrs={'class': 'form-control'}))

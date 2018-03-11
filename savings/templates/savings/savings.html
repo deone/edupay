@@ -20,4 +20,42 @@
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
   <h2>Create Plan</h2>
 </div>
+<div class="row">
+  <div class="col-md-6">
+    <form method="post" class="needs-validation" novalidate>
+      {{ form.non_field_errors }}
+      {% csrf_token %}
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          {{ form.total_fee.label_tag }}
+          {{ form.total_fee.errors }}
+          {{ form.total_fee }}
+        </div>
+        <div class="col-md-6 mb-3">
+          {{ form.amount_to_be_saved.label_tag }}
+          {{ form.amount_to_be_saved.errors }}
+          {{ form.amount_to_be_saved }}
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          {{ form.frequency.label_tag }}
+          {{ form.frequency.errors }}
+          {{ form.frequency }}
+          <div class="invalid-feedback">
+            Please select a frequency.
+          </div>
+        </div>
+        <div class="col-md-6 mb-3">
+          {{ form.contribution.label_tag }}
+          {{ form.contribution.errors }}
+          {{ form.contribution }}
+        </div>
+      </div>
+      <hr class="mb-4">
+      <button class="btn btn-primary btn-lg btn-block" type="submit">Submit</button>
+    </form>
+  </div>
+</div>
 {% endblock %}

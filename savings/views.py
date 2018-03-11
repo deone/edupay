@@ -7,7 +7,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 
 from models import Agent, Parent, Child
-from forms import SchoolForm, AgentForm, ParentForm, AddChildForm
+from forms import SchoolForm, AgentForm, ParentForm, AddChildForm, SavingsPlanForm
 
 def login_redirect(request):
     username, password = request.POST['phone_number'], request.POST['password']
@@ -60,11 +60,16 @@ def dashboard(request):
             form = AddChildForm(label_suffix='', parent=parent)
     
         context.update({'children': Child.objects.filter(parent=parent), 'form': form})
-
     return render(request, 'savings/dashboard.html', context)
 
 # @must_be_parent
 @login_required
 def savings(request):
     context = {}
+    if request.method == 'POST':
+        form = SavingsPlanForm(request.POST)
+    else:
+        form = SavingsPlanForm(label_suffix='', initial={})
+
+    context.update({'form': form})
     return render(request, 'savings/savings.html', context)
