@@ -50,6 +50,8 @@ def create_agent(request):
 def dashboard(request):
     if request.method == 'POST':
         form = AddChildForm(request.POST)
+        if form.is_valid():
+            form.save()
     else:
         form = AddChildForm(label_suffix='')
     return render(request, 'savings/dashboard.html', {'form': form})

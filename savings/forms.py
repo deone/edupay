@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 
-from models import School, Agent, Parent
+from models import School, Agent, Parent, Child
 
 class CreateBaseForm(forms.Form):
     phone_number = forms.IntegerField(label=_('Phone number'), widget=forms.NumberInput(attrs={
@@ -107,3 +107,7 @@ class AddChildForm(PersonForm):
         attrs={'class': 'form-control'}), empty_label='Choose...')
     fee_per_term = forms.CharField(label=_('Fee per term'), max_length=20, widget=forms.NumberInput(
         attrs={'class': 'form-control'}))
+
+    def save(self):
+        # {'first_name': u'Ade', 'last_name': u'Ola', 'school': <School: St. James High School>, 'fee_per_term': u'20000'}
+        Child.objects.create(**self.cleaned_data)
