@@ -79,8 +79,17 @@ class SavingsPlan(DateCreated):
         ('monthly', 'Monthly'),
     )
 
+    TERM_CHOICES = (
+        ('', 'Choose...'),
+        ('1', 'First Term - Sep. 20'),
+        ('2', 'First Term - Jan. 10'),
+        ('3', 'First Term - Apr. 15'),
+    )
+
     parent = models.ForeignKey(Parent)
     total_fee = models.IntegerField()
     amount_to_be_saved = models.IntegerField()
     frequency = models.CharField(max_length=7, choices=FREQUENCY_CHOICES)
+    target_term = models.CharField(max_length=1, choices=TERM_CHOICES)
+    target_date = models.DateTimeField()
     contribution = models.PositiveSmallIntegerField()
