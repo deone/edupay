@@ -26,20 +26,19 @@
       {{ form.non_field_errors }}
       {% csrf_token %}
       <div class="row">
-        <div class="col-md-6 mb-3">
+        <div class="col-md-4 mb-3">
           {{ form.total_fee.label_tag }}
           {{ form.total_fee.errors }}
           {{ form.total_fee }}
         </div>
-        <div class="col-md-6 mb-3">
-          {{ form.amount_to_be_saved.label_tag }}
+        <div class="col-md-4 mb-3">
+          <label for="{{ form.amount_to_be_saved.id_for_label }}" style='font-size: 67.85%;'>Amount to be saved 
+            <span class="text-muted">({{ savings_percent }}% of total fee)</span>
+          </label>
           {{ form.amount_to_be_saved.errors }}
           {{ form.amount_to_be_saved }}
         </div>
-      </div>
-
-      <div class="row">
-        <div class="col-md-6 mb-3">
+        <div class="col-md-4 mb-3">
           {{ form.frequency.label_tag }}
           {{ form.frequency.errors }}
           {{ form.frequency }}
@@ -47,7 +46,23 @@
             Please select a frequency.
           </div>
         </div>
-        <div class="col-md-6 mb-3">
+      </div>
+
+      <div class="row">
+        <div class="col-md-5 mb-3">
+          {{ form.target_term.label_tag }}
+          {{ form.target_term.errors }}
+          {{ form.target_term }}
+          <div class="invalid-feedback">
+            Please select a target term.
+          </div>
+        </div>
+        <div class="col-md-4 mb-3">
+          {{ form.target_date.label_tag }}
+          {{ form.target_date.errors }}
+          {{ form.target_date }}
+        </div>
+        <div class="col-md-3 mb-3">
           {{ form.contribution.label_tag }}
           {{ form.contribution.errors }}
           {{ form.contribution }}
@@ -58,4 +73,53 @@
     </form>
   </div>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  function computeContribution() {
+    var freq = document.getElementById('id_frequency').value;
+    var term = document.getElementById('id_target_term').value;
+    var totalFee = document.getElementById('id_total_fee').value;
+
+    if (term) {
+      if (!freq) {
+        alert('Please select contribution frequency before target term.')
+      }
+    }
+
+    if (term == 1) {
+      var targetDay = 20;
+      // 1st term starts in September which should be 9,
+      // but get_month() starts Jan at 0, so Sep will be 8
+      var targetMonth = 8;
+    }
+
+    if (term == 2) {
+      var targetDay = 10;
+      var targetMonth = 0;
+    }
+
+    if (term == 3) {
+      var targetDay = 15;
+      var targetMonth = 3;
+    }
+
+    var thisMonth = new Date().getMonth();
+
+    // Figure out target year
+    if (targetMonth > thisMonth) {
+      var targetYear = new Date().getFullYear();
+    } else {
+      var targetYear = new Date().getFullYear() + 1;
+    }
+
+    var targetDate = new Date(targetYear, targetMonth, targetDay);
+    var parts = targetDate.toString().split(' ');
+    var friendlyDate = parts[1] + ' ' + parts[2] + ' ' + parts[3];
+
+    // alert(friendlyDate);
+    document.getElementById('id_target_date').value = friendlyDate;
+  }
+</script>
 {% endblock %}
