@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
+from __future__ import unicode_literals, division
 
+from django.db.models import Sum
+from django.conf import settings
 from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView
 from django.contrib.auth import authenticate, login
@@ -8,6 +10,9 @@ from django.contrib.auth.decorators import login_required
 
 from models import Agent, Parent, Child
 from forms import SchoolForm, AgentForm, ParentForm, AddChildForm, SavingsPlanForm
+
+def get_parent(user):
+    return Parent.objects.get(user=user)
 
 def login_redirect(request):
     username, password = request.POST['phone_number'], request.POST['password']
@@ -50,7 +55,7 @@ def create_agent(request):
 def dashboard(request):
     context = {}
     if hasattr(request.user, 'parent'):
-        parent = Parent.objects.get(user=request.user)
+        parent = get_parent(request.user)
         if request.method == 'POST':
             form = AddChildForm(request.POST, parent=parent)
             if form.is_valid():
@@ -66,10 +71,15 @@ def dashboard(request):
 @login_required
 def savings(request):
     context = {}
+    parent = get_parent(request.user)
+    total_fee = parent.child_set.all().aggregate(Sum('fee_per_term'))['fee_per_term__sum']
+    amount_to_be_saved = (settings.SAVINGS_PERCENT / 100) * total_fee
+
     if request.method == 'POST':
         form = SavingsPlanForm(request.POST)
     else:
-        form = SavingsPlanForm(label_suffix='', initial={})
+        form = SavingsPlanForm(label_suffix='', initial={
+            'total_fee': total_fee, 'amount_to_be_saved': amount_to_be_saved})
 
-    context.update({'form': form})
+    context.update({'form': form, 'savings_percent': settings.SAVINGS_PERCENT})
     return render(request, 'savings/savings.html', context)
