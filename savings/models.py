@@ -20,7 +20,7 @@ class School(EduPayUser):
     def __str__(self):
         return self.name
 
-class Person(EduPayUser):
+class Person(models.Model):
     class Meta:
         abstract = True
 
@@ -30,7 +30,7 @@ class Person(EduPayUser):
     def get_full_name(self):
         return '{} {}'.format(self.first_name, self.last_name)
 
-class PersonWithAddress(Person):
+class PersonWithAddress(Person, EduPayUser):
     class Meta:
         abstract = True
 
