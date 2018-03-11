@@ -1,0 +1,83 @@
+<h1>Children</h2>
+<div class="table-responsive">
+  {% if children %}
+    <table class="table table-striped table-sm">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>School</th>
+          <th>Fee per term</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for child in children %}
+          <tr>
+            <td>{{ child.get_full_name }}</td>
+            <td>{{ child.school.name }}</td>
+            <td>{{ child.fee_per_term }}</td>
+            <td><a href="#">Edit</a></td>
+            <td><a href="#">Delete</a></td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <div class="alert alert-info" role="alert">
+      You have not added a child.
+    </div>
+  {% endif %}
+</div>
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+  <h2>Add Child</h2>
+</div>
+<div class="row">
+  <div class="col-md-6">
+    <form method="post" class="needs-validation" novalidate>
+      {{ form.non_field_errors }}
+      {% csrf_token %}
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          {{ form.first_name.label_tag }}
+          {{ form.first_name.errors }}
+          {{ form.first_name }}
+          <div class="invalid-feedback">
+            Valid first name is required.
+          </div>
+        </div>
+        <div class="col-md-6 mb-3">
+          {{ form.last_name.label_tag }}
+          {{ form.last_name.errors }}
+          {{ form.last_name }}
+          <div class="invalid-feedback">
+            Valid last name is required.
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-9 mb-3">
+          {{ form.school.label_tag }}
+          {{ form.school.errors }}
+          {{ form.school }}
+          <div class="invalid-feedback">
+            School is required.
+          </div>
+        </div>
+        <div class="col-md-3 mb-3">
+          {{ form.fee_per_term.label_tag }}
+          {{ form.fee_per_term.errors }}
+          {{ form.fee_per_term }}
+          <div class="invalid-feedback">
+            Fee per term is required.
+          </div>
+        </div>
+      </div>
+
+      <hr class="mb-4">
+      <button class="btn btn-primary btn-lg btn-block" type="submit">Submit</button>
+    </form>
+  </div>
+</div>

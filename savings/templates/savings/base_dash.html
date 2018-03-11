@@ -1,0 +1,63 @@
+{% extends 'base_outer.html' %}
+
+{% block css %}
+  <link href="https://getbootstrap.com/docs/4.0/examples/checkout/form-validation.css" rel="stylesheet">
+  <link href="https://getbootstrap.com/docs/4.0/examples/dashboard/dashboard.css" rel="stylesheet">
+{% endblock %}
+
+{% block markup %}
+<body>
+  <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
+    <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">EduPay</a>
+    <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
+    <ul class="navbar-nav px-3">
+      <li class="nav-item text-nowrap">
+        <a class="nav-link" href="{% url 'logout' %}">Sign out</a>
+      </li>
+    </ul>
+  </nav>
+
+  <div class="container-fluid">
+    <div class="row">
+      <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+        <div class="sidebar-sticky">
+
+          <ul class="nav flex-column">
+            {% if user.parent %}
+              <li class="nav-item">
+                <a class="nav-link active" href="{% url 'dashboard' %}">
+                  <span data-feather="users"></span>
+                  Children <span class="sr-only">(current)</span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'savings' %}">
+                  <span data-feather="bar-chart-2"></span>
+                  Savings
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">
+                  <span data-feather="layers"></span>
+                  Payments
+                </a>
+              </li>
+            {% endif %}
+          </ul>
+
+        </div>
+      </nav>
+
+      <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+        {% block dash_content %}
+        {% endblock %}
+      </main>
+    </div>
+  </div>
+{% endblock %}
+{% block page_js %}
+<script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+<script>
+  feather.replace()
+</script>
+{% endblock %}
