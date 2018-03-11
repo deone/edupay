@@ -52,30 +52,34 @@
         {% if user.parent %}
           <h1>Children</h2>
           <div class="table-responsive">
-            <table class="table table-striped table-sm">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>School</th>
-                  <th>Fee per term</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Somto</td>
-                  <td>Amechi</td>
-                  <td>57,000</td>
-                  <td><a href="">Edit</a></td>
-                </tr>
-                <tr>
-                  <td>Sola</td>
-                  <td>Ajayi</td>
-                  <td>55,000</td>
-                  <td><a href="">Edit</a></td>
-                </tr>
-              </tbody>
-            </table>
+            {% if children %}
+              <table class="table table-striped table-sm">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>School</th>
+                    <th>Fee per term</th>
+                    <th></th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for child in children %}
+                    <tr>
+                      <td>{{ child.get_full_name }}</td>
+                      <td>{{ child.school.name }}</td>
+                      <td>{{ child.fee_per_term }}</td>
+                      <td><a href="#">Edit</a></td>
+                      <td><a href="#">Delete</a></td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            {% else %}
+              <div class="alert alert-info" role="alert">
+                You have not added a child.
+              </div>
+            {% endif %}
           </div>
 
           <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
@@ -135,7 +139,6 @@
   </div>
 
   {% block js %}
-    <!-- This is already in base_create.html. Don't repeat it -->
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
@@ -143,6 +146,11 @@
     <script src="https://getbootstrap.com/assets/js/vendor/popper.min.js"></script>
     <script src="https://getbootstrap.com/dist/js/bootstrap.min.js"></script>
     <script src="https://getbootstrap.com/assets/js/vendor/holder.min.js"></script>
+    <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+    <script>
+      feather.replace()
+    </script>
+    <!-- This is already in base_create.html. Don't repeat it -->
     <script>
       // Example starter JavaScript for disabling form submissions if there are invalid fields
       (function() {

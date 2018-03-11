@@ -55,6 +55,7 @@ def dashboard(request):
             form = AddChildForm(request.POST, parent=parent)
             if form.is_valid():
                 form.save()
+                return redirect('dashboard')
         else:
             form = AddChildForm(label_suffix='', parent=parent)
     
