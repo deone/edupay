@@ -103,6 +103,10 @@ class ParentForm(CreateBaseForm, PersonWithAddressForm):
             house_address=house_address, work_address=work_address)
 
 class AddChildForm(PersonForm):
+    def __init__(self, *args, **kwargs):
+        self.parent= kwargs.pop('parent')
+        super(AddChildForm, self).__init__(*args, **kwargs)
+
     school = forms.ModelChoiceField(label=_('School'), queryset=School.objects.all(), widget=forms.Select(
         attrs={'class': 'form-control'}), empty_label='Choose...')
     fee_per_term = forms.CharField(label=_('Fee per term'), max_length=20, widget=forms.NumberInput(
@@ -110,4 +114,6 @@ class AddChildForm(PersonForm):
 
     def save(self):
         # {'first_name': u'Ade', 'last_name': u'Ola', 'school': <School: St. James High School>, 'fee_per_term': u'20000'}
+        data = self.cleaned_data
+        data.update({'parent': self.parent})
         Child.objects.create(**self.cleaned_data)

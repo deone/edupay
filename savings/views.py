@@ -6,7 +6,7 @@ from django.views.generic.edit import CreateView
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 
-from models import Agent
+from models import Agent, Parent, Child
 from forms import SchoolForm, AgentForm, ParentForm, AddChildForm
 
 def login_redirect(request):
@@ -48,10 +48,14 @@ def create_agent(request):
 
 @login_required
 def dashboard(request):
+    parent = Parent.objects.get(user=request.user)
     if request.method == 'POST':
-        form = AddChildForm(request.POST)
+        form = AddChildForm(request.POST, parent=parent)
         if form.is_valid():
             form.save()
     else:
-        form = AddChildForm(label_suffix='')
+        form = AddChildForm(label_suffix='', parent=parent)
+
+    context = {'form': form}
+    context.update({'children': Child.objects.filter(parent=parent)})
     return render(request, 'savings/dashboard.html', {'form': form})
