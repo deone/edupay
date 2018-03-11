@@ -81,9 +81,9 @@ class SavingsPlan(DateCreated):
 
     TERM_CHOICES = (
         ('', 'Choose...'),
-        ('1', 'First Term - Sep. 20'),
-        ('2', 'First Term - Jan. 10'),
-        ('3', 'First Term - Apr. 15'),
+        ('1', '1st Term - Sep. 20'),
+        ('2', '2nd Term - Jan. 10'),
+        ('3', '3rd Term - Apr. 15'),
     )
 
     parent = models.ForeignKey(Parent)
