@@ -2,7 +2,9 @@ from django import forms
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 
-from models import School, Agent, Parent, Child, SavingsPlan
+from models import School, Agent, Parent, Child, SavingPlan
+
+from datetime import datetime
 
 class CreateBaseForm(forms.Form):
     phone_number = forms.IntegerField(label=_('Phone number'), widget=forms.NumberInput(attrs={
@@ -100,7 +102,7 @@ class ParentForm(CreateBaseForm, PersonWithAddressForm):
 
 class AddChildForm(PersonForm):
     def __init__(self, *args, **kwargs):
-        self.parent= kwargs.pop('parent')
+        self.parent = kwargs.pop('parent')
         super(AddChildForm, self).__init__(*args, **kwargs)
 
     school = forms.ModelChoiceField(label=_('School'), queryset=School.objects.all(), widget=forms.Select(
@@ -113,16 +115,29 @@ class AddChildForm(PersonForm):
         data.update({'parent': self.parent})
         Child.objects.create(**data)
 
-class SavingsPlanForm(forms.Form):
+class SavingPlanForm(forms.Form):
+    def __init__(self, *args, **kwargs):
+        self.parent = kwargs.pop('parent')
+        super(SavingPlanForm, self).__init__(*args, **kwargs)
+
     total_fee = forms.IntegerField(label=_('Total fee'), widget=forms.NumberInput(
         attrs={'class': 'form-control', 'readonly': True}))
     amount_to_be_saved = forms.IntegerField(label=_('Amount to be saved'), widget=forms.NumberInput(
         attrs={'class': 'form-control', 'readonly': True}))
-    frequency = forms.ChoiceField(label=_('Contribution Frequency'), choices=SavingsPlan.FREQUENCY_CHOICES, widget=forms.Select(
+    frequency = forms.ChoiceField(label=_('Contribution Frequency'), choices=SavingPlan.FREQUENCY_CHOICES, widget=forms.Select(
         attrs={'class': 'form-control', 'onchange': 'computeContribution()'}))
-    target_term = forms.ChoiceField(label=_('Target term'), choices=SavingsPlan.TERM_CHOICES, widget=forms.Select(
+    target_term = forms.ChoiceField(label=_('Target term'), choices=SavingPlan.TERM_CHOICES, widget=forms.Select(
         attrs={'class': 'form-control', 'onchange': 'computeContribution()'}))
-    target_date = forms.DateTimeField(label=_('Target date'), widget=forms.TextInput(
+    target_date = forms.CharField(label=_('Target date'), widget=forms.TextInput(
         attrs={'class': 'form-control', 'readonly': True}))
     contribution = forms.IntegerField(label=_('Contribution'), widget=forms.NumberInput(
         attrs={'class': 'form-control', 'readonly': True}))
+
+    def save(self):
+        data = self.cleaned_data
+        text_date = data['target_date']
+        data.update({
+            'parent': self.parent,
+            'target_date': datetime.strptime(text_date, '%b %d %Y')
+        })
+        SavingPlan.objects.create(**data)

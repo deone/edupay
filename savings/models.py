@@ -28,6 +28,9 @@ class Person(models.Model):
     def get_full_name(self):
         return '{} {}'.format(self.first_name, self.last_name)
 
+    def __str__(self):
+        return self.get_full_name()
+
 class PersonWithAddress(Person, EduPayUser):
     class Meta:
         abstract = True
@@ -60,18 +63,12 @@ class Agent(PersonWithAddress):
     account_name = models.CharField(_('account name'), max_length=50)
     bank_name = models.CharField(_('bank name'), max_length=25, choices=BANK_CHOICES)
 
-    def __str__(self):
-        return self.get_full_name()
-
 class Child(Person, DateCreated):
     parent = models.ForeignKey(Parent)
     school = models.ForeignKey(School)
     fee_per_term = models.CharField(_('fee per term'), max_length=20)
 
-    def __str__(self):
-        return self.get_full_name()
-
-class SavingsPlan(DateCreated):
+class SavingPlan(DateCreated):
     FREQUENCY_CHOICES = (
         ('', 'Choose...'),
         ('daily', 'Daily'),

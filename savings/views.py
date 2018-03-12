@@ -9,7 +9,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 
 from models import Agent, Parent, Child
-from forms import SchoolForm, AgentForm, ParentForm, AddChildForm, SavingsPlanForm
+from forms import SchoolForm, AgentForm, ParentForm, AddChildForm, SavingPlanForm
 
 def get_parent(user):
     return Parent.objects.get(user=user)
@@ -76,9 +76,12 @@ def savings(request):
     amount_to_be_saved = (settings.SAVINGS_PERCENT / 100) * total_fee
 
     if request.method == 'POST':
-        form = SavingsPlanForm(request.POST)
+        form = SavingsPlanForm(request.POST, parent=parent)
+        if form.is_valid():
+            form.save()
+            return redirect('savings')
     else:
-        form = SavingsPlanForm(label_suffix='', initial={
+        form = SavingsPlanForm(label_suffix='', parent=parent, initial={
             'total_fee': total_fee, 'amount_to_be_saved': amount_to_be_saved})
 
     context.update({'form': form, 'savings_percent': settings.SAVINGS_PERCENT})
