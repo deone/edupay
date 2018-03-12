@@ -6,6 +6,8 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 
+from session.models import Session
+
 class DateCreated(models.Model):
     class Meta:
         abstract = True
@@ -100,4 +102,5 @@ class SavingPlan(DateCreated):
     is_active = models.BooleanField(default=True)
 
 class Saving(DateCreated):
+    session = models.ForeignKey(Session)
     saving_plan = models.ForeignKey(SavingPlan)
