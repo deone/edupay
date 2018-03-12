@@ -83,6 +83,12 @@ class SavingPlan(DateCreated):
         ('3', '3rd Term - Apr. 15'),
     )
 
+    PAYMENT_MODE_CHOICES = (
+        ('', 'Choose...'),
+        ('agent', 'Agent'),
+        ('direct debit', 'Direct debit'),
+    )
+
     parent = models.ForeignKey(Parent)
     total_fee = models.IntegerField()
     amount_to_be_saved = models.IntegerField()
@@ -90,3 +96,4 @@ class SavingPlan(DateCreated):
     target_term = models.CharField(max_length=1, choices=TERM_CHOICES)
     target_date = models.DateField()
     contribution = models.PositiveSmallIntegerField()
+    mode_of_payment = models.CharField(max_length=15, choices=PAYMENT_MODE_CHOICES)
