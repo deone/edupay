@@ -98,3 +98,6 @@ class SavingPlan(DateCreated):
     contribution = models.PositiveSmallIntegerField()
     mode_of_payment = models.CharField(max_length=15, choices=PAYMENT_MODE_CHOICES)
     is_active = models.BooleanField(default=True)
+
+class Saving(DateCreated):
+    saving_plan = models.ForeignKey(SavingPlan)
