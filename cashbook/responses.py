@@ -15,6 +15,7 @@ STEPS = {
     },
     'two': {
         'agent': {
+            1: 'confirm_contribution_collected',
         }
     },
     'three': {
