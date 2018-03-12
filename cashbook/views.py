@@ -1,15 +1,28 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.shortcuts import render
-
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
+import neoutils
+
+import step
+from responses import ACTIONS
+from savings.handlers import AgentHandler, ParentHandler
+
 from session.handlers import SessionHandler
 
-from cashbook.actions import Action
-from savings.handlers import AgentHandler, ParentHandler
+STEP_FUNCTIONS = {
+    '1': step.one,
+    '2': step.two,
+    '3': step.three,
+}
+
+WELCOME = 'Welcome to EduPay\n\n'
+INIT_MENU = {
+    'agent':  WELCOME + "1. Collect Contribution\n2. Check Collection Summary",
+    'parent': WELCOME + "1. Check Savings Summary"
+}
 
 @api_view(['POST'])
 def index(request):
@@ -25,23 +38,31 @@ def index(request):
     if not agent:
         parent = ParentHandler.get(phone_number)
         if not parent:
-            return Response(Action.release('You are unauthorized to use this service.'))
+            return Response(neoutils.NeoAction.release('You are unauthorized to use this service.'))
+    else:
+        first_name = agent.first_name
+        last_name = agent.last_name
+        data.update({'is_agent': True, 'first_name': first_name, 'last_name': last_name})
 
-    """ session = SessionHandler(request.data['SessionId'])
-    session.get_or_create(
-        phone_number='0' + request.data['Mobile'][3:],
-        service_code=request.data['ServiceCode'],
-        operator=request.data['Operator']
-    )
+    r = {}
+    initiator, is_agent, session_args = neoutils.build_session_args(data, 'parent')
 
-    # Create session
     session_id = data['SessionId']
     session = SessionHandler(session_id)
+    session.get_or_create(**session_args)
 
-    session_args = {
-        'phone_number': data['Mobile'],
-        'service_code': data['ServiceCode'],
-        'operator': data['Operator']
-    }
+    # Set initiation message (code dialled - e.g. *711*78# or *711*78*1#) at first sequence
+    seq = request.data.get('Sequence', None)
+    message = request.data.get('Message', None)
+    if int(seq) == 1:
+        session.set_init_message(message)
 
-    session.get_or_create(**session_args) """
+    response_type = request.data.get('Type', None)
+    if response_type == 'Initiation':
+        r = neoutils.perform_init_action(
+            ACTIONS, STEP_FUNCTIONS, session, seq, message, initiator, first_name, is_agent, menu=INIT_MENU)
+    else:
+        step = neoutils.get_step(session, int(seq))
+        r = neoutils.perform_action(ACTIONS, STEP_FUNCTIONS, step, session, message, initiator)
+
+    return Response(r)
