@@ -13,6 +13,7 @@
           <th>Target Date</th>
           <th>Frequency</th>
           <th>Contribution</th>
+          <th>Mode Of Payment</th>
           <th>Date/Time Created</th>
         </tr>
       </thead>
@@ -25,6 +26,7 @@
             <td>{{ sp.target_date }}</td>
             <td style='text-transform: capitalize'>{{ sp.frequency }}</td>
             <td>{{ sp.contribution }}</td>
+            <td style='text-transform: capitalize'>{{ sp.mode_of_payment }}</td>
             <td>{{ sp.date_created }}</td>
           </tr>
         {% endfor %}
@@ -46,19 +48,22 @@
       {{ form.non_field_errors }}
       {% csrf_token %}
       <div class="row">
-        <div class="col-md-4 mb-3">
+        <div class="col-md-6 mb-3">
           {{ form.total_fee.label_tag }}
           {{ form.total_fee.errors }}
           {{ form.total_fee }}
         </div>
-        <div class="col-md-4 mb-3">
-          <label for="{{ form.amount_to_be_saved.id_for_label }}" style='font-size: 67.85%;'>Amount to be saved 
+        <div class="col-md-6 mb-3">
+          <label for="{{ form.amount_to_be_saved.id_for_label }}">Amount to be saved 
             <span class="text-muted">({{ savings_percent }}% of total fee)</span>
           </label>
           {{ form.amount_to_be_saved.errors }}
           {{ form.amount_to_be_saved }}
         </div>
-        <div class="col-md-4 mb-3">
+      </div>
+
+      <div class="row">
+        <div class="col-md-6 mb-3">
           {{ form.frequency.label_tag }}
           {{ form.frequency.errors }}
           {{ form.frequency }}
@@ -66,10 +71,7 @@
             Please select a frequency.
           </div>
         </div>
-      </div>
-
-      <div class="row">
-        <div class="col-md-5 mb-3">
+        <div class="col-md-6 mb-3">
           {{ form.target_term.label_tag }}
           {{ form.target_term.errors }}
           {{ form.target_term }}
@@ -82,14 +84,22 @@
           {{ form.target_date.errors }}
           {{ form.target_date }}
         </div>
-        <div class="col-md-3 mb-3">
+        <div class="col-md-4 mb-3">
           {{ form.contribution.label_tag }}
           {{ form.contribution.errors }}
           {{ form.contribution }}
         </div>
+        <div class="col-md-4 mb-3">
+          {{ form.mode_of_payment.label_tag }}
+          {{ form.mode_of_payment.errors }}
+          {{ form.mode_of_payment }}
+          <div class="invalid-feedback">
+            Please select a mode of payment.
+          </div>
+        </div>
       </div>
       <hr class="mb-4">
-      <button class="btn btn-primary btn-lg btn-block" type="submit">Submit</button>
+      <button class="btn btn-primary btn-lg btn-block" type="submit" style='margin-bottom: 30px;'>Submit</button>
     </form>
   </div>
 </div>

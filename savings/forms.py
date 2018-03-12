@@ -132,6 +132,8 @@ class SavingPlanForm(forms.Form):
         attrs={'class': 'form-control', 'readonly': True}))
     contribution = forms.IntegerField(label=_('Contribution'), widget=forms.NumberInput(
         attrs={'class': 'form-control', 'readonly': True}))
+    mode_of_payment = forms.ChoiceField(label=_('Mode of payment'), choices=SavingPlan.PAYMENT_MODE_CHOICES, widget=forms.Select(
+        attrs={'class': 'form-control'}))
 
     def save(self):
         data = self.cleaned_data
