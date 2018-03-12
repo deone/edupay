@@ -15,11 +15,12 @@ STEPS = {
     },
     'two': {
         'agent': {
-            1: 'confirm_contribution_collected',
+            1: 'request_confirmation',
         }
     },
     'three': {
         'agent': {
+            1: 'confirm_contribution_collected',
         }
     }
 }
