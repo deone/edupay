@@ -88,5 +88,5 @@ class SavingPlan(DateCreated):
     amount_to_be_saved = models.IntegerField()
     frequency = models.CharField(max_length=7, choices=FREQUENCY_CHOICES)
     target_term = models.CharField(max_length=1, choices=TERM_CHOICES)
-    target_date = models.DateTimeField()
+    target_date = models.DateField()
     contribution = models.PositiveSmallIntegerField()
