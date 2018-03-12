@@ -81,7 +81,7 @@ def savings(request):
             form.save()
             return redirect('savings')
     else:
-        form = SavingsPlanForm(label_suffix='', parent=parent, initial={
+        form = SavingPlanForm(label_suffix='', parent=parent, initial={
             'total_fee': total_fee, 'amount_to_be_saved': amount_to_be_saved})
 
     context.update({'form': form, 'savings_percent': settings.SAVINGS_PERCENT})
