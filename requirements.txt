@@ -1,5 +1,11 @@
+certifi==2018.1.18
+chardet==3.0.4
 Django==1.11.10
 djangorestframework==3.7.7
+idna==2.6
 MySQL-python==1.2.5
+neo-utils==0.1.5
 pytz==2018.3
+requests==2.18.4
+urllib3==1.22
 ussd-session==0.1.6
