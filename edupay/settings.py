@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'savings',
     'accounts',
     'cashbook',
+    'session',
 ]
 
 MIDDLEWARE = [
