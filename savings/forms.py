@@ -119,7 +119,7 @@ class SavingsPlanForm(forms.Form):
     amount_to_be_saved = forms.IntegerField(label=_('Amount to be saved'), widget=forms.NumberInput(
         attrs={'class': 'form-control', 'readonly': True}))
     frequency = forms.ChoiceField(label=_('Contribution Frequency'), choices=SavingsPlan.FREQUENCY_CHOICES, widget=forms.Select(
-        attrs={'class': 'form-control'}))
+        attrs={'class': 'form-control', 'onchange': 'computeContribution()'}))
     target_term = forms.ChoiceField(label=_('Target term'), choices=SavingsPlan.TERM_CHOICES, widget=forms.Select(
         attrs={'class': 'form-control', 'onchange': 'computeContribution()'}))
     target_date = forms.DateTimeField(label=_('Target date'), widget=forms.TextInput(
