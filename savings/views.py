@@ -33,7 +33,7 @@ def create_school(request):
 
 def create_parent(request):
     if request.method == 'POST':
-        form = ParentForm(request.POST)
+        form = ParentForm(request.POST, label_suffix='')
         if form.is_valid():
             form.save()
             return login_redirect(request)
@@ -43,7 +43,7 @@ def create_parent(request):
 
 def create_agent(request):
     if request.method == 'POST':
-        form = AgentForm(request.POST)
+        form = AgentForm(request.POST, label_suffix='')
         if form.is_valid():
             form.save()
             return login_redirect(request)
@@ -72,7 +72,7 @@ def dashboard(request):
 def savings(request):
     context = {}
     parent = get_parent(request.user)
-    total_fee = parent.child_set.all().aggregate(Sum('fee_per_term'))['fee_per_term__sum']
+    total_fee = parent.child_set.all().aggregate(Sum('fee_per_term'))['fee_per_term__sum'] or 0
     amount_to_be_saved = (settings.SAVINGS_PERCENT / 100) * total_fee
 
     if request.method == 'POST':

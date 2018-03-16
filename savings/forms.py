@@ -20,6 +20,21 @@ class CreateBaseForm(forms.Form):
                 'class': 'form-control'
             }))
 
+    def clean(self):
+        cleaned_data = super(CreateBaseForm, self).clean()
+        email = cleaned_data.get('email')
+        phone_number = '0' + str(cleaned_data.get('phone_number'))
+        password = cleaned_data.get('password')
+
+        try:
+            user = User.objects.create_user(phone_number, email, password)
+        except IntegrityError:
+            raise forms.ValidationError("Phone number already exists.")
+        else:
+            cleaned_data.update({'user': user})
+
+        return cleaned_data
+
 class SchoolForm(CreateBaseForm):
     name = forms.CharField(label=_('School name'), max_length=50, widget=forms.TextInput(attrs={
                 'placeholder': 'St. Alexis International School',
@@ -33,21 +48,6 @@ class SchoolForm(CreateBaseForm):
                 'placeholder': 'Seyi Chukwuka',
                 'class': 'form-control'
             }))
-
-    def clean(self):
-        cleaned_data = super(SchoolForm, self).clean()
-        email = cleaned_data.get('email')
-        phone_number = '0' + str(cleaned_data.get('phone_number'))
-        password = cleaned_data.get('password')
-
-        try:
-            user = User.objects.create_user(phone_number, email, password)
-        except IntegrityError:
-            raise forms.ValidationError("Phone number already exists.")
-        else:
-            cleaned_data.update({'user': user})
-
-        return cleaned_data
 
     def save(self):
         data = self.cleaned_data
@@ -88,25 +88,13 @@ class AgentForm(CreateBaseForm, PersonWithAddressForm):
 
     def save(self):
         data = self.cleaned_data
-        email, password = data.get('email', None), data['password']
-        phone_number = '0' + str(data['phone_number'])
-        user = User.objects.create_user(phone_number, email, password)
-
         del data['email'], data['password'], data['phone_number']
-
-        data.update({'user': user})
         Agent.objects.create(**data)
 
 class ParentForm(CreateBaseForm, PersonWithAddressForm):
     def save(self):
         data = self.cleaned_data
-        phone_number = '0' + str(data['phone_number'])
-        email, password = data.get('email', None), data['password']
-        user = User.objects.create_user(phone_number, email, password)
-
         del data['email'], data['password'], data['phone_number']
-
-        data.update({'user': user})
         Parent.objects.create(**data)
 
 class AddChildForm(PersonForm):
