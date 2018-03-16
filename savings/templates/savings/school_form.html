@@ -4,67 +4,57 @@
 
 {% block page_header %}<h2>School Sign Up</h2>{% endblock %}
 
-{% block form %}
-  <form method="post" class="needs-validation" novalidate>
-    {% csrf_token %}
-    {% if form.non_field_errors %}
-      <div class="alert alert-danger" role="alert">
-        {{ form.non_field_errors }}
-      </div>
-    {% endif %}
-    <div class="mb-3">
-      {{ form.name.label_tag }}
-      {{ form.name.errors }}
-      {{ form.name }}
-      <div class="invalid-feedback">
-        Please enter a valid school name.
-      </div>
-    </div>
+{% block form_elements %}
+<div class="mb-3">
+  {{ form.name.label_tag }}
+  {{ form.name.errors }}
+  {{ form.name }}
+  <div class="invalid-feedback">
+    Please enter a valid school name.
+  </div>
+</div>
 
-    <div class="mb-3">
-      {{ form.address.label_tag }}
-      {{ form.address.errors }}
-      {{ form.address }}
-      <div class="invalid-feedback">
-        Please enter your address.
-      </div>
-    </div>
+<div class="mb-3">
+  {{ form.address.label_tag }}
+  {{ form.address.errors }}
+  {{ form.address }}
+  <div class="invalid-feedback">
+    Please enter your address.
+  </div>
+</div>
 
-    <div class="row">
-      <div class="col-md-6 mb-3">
-        <label for="{{ form.name_of_head.id_for_label }}">Name of school head</label>
-        {{ form.name_of_head.errors }}
-        {{ form.name_of_head }}
-        <div class="invalid-feedback">
-          Valid name is required.
-        </div>
-      </div>
-      <div class="col-md-6 mb-3">
-        <label for="{{ form.phone_number.id_for_label }}">Phone number</label>
-        {{ form.phone_number.errors }}
-        {{ form.phone_number }}
-        <div class="invalid-feedback">
-          Valid phone number is required.
-        </div>
-      </div>
+<div class="row">
+  <div class="col-md-6 mb-3">
+    <label for="{{ form.name_of_head.id_for_label }}">Name of school head</label>
+    {{ form.name_of_head.errors }}
+    {{ form.name_of_head }}
+    <div class="invalid-feedback">
+      Valid name is required.
     </div>
+  </div>
+  <div class="col-md-6 mb-3">
+    <label for="{{ form.phone_number.id_for_label }}">Phone number</label>
+    {{ form.phone_number.errors }}
+    {{ form.phone_number }}
+    <div class="invalid-feedback">
+      Valid phone number is required.
+    </div>
+  </div>
+</div>
 
-    <div class="row">
-      <div class="col-md-6 mb-3">
-        <label for="{{ form.email.id_for_label }}">Email <span class="text-muted">(Optional)</span></label>
-        {{ form.email.errors }}
-        {{ form.email }}
-      </div>
-      <div class="col-md-6 mb-3">
-        <label for="{{ form.password.id_for_label }}">Password</label>
-        {{ form.password.errors }}
-        {{ form.password }}
-        <div class="invalid-feedback">
-          Enter password.
-        </div>
-      </div>
+<div class="row">
+  <div class="col-md-6 mb-3">
+    <label for="{{ form.email.id_for_label }}">Email <span class="text-muted">(Optional)</span></label>
+    {{ form.email.errors }}
+    {{ form.email }}
+  </div>
+  <div class="col-md-6 mb-3">
+    <label for="{{ form.password.id_for_label }}">Password</label>
+    {{ form.password.errors }}
+    {{ form.password }}
+    <div class="invalid-feedback">
+      Enter password.
     </div>
-    <hr class="mb-4">
-    <button class="btn btn-primary btn-lg btn-block" type="submit">Submit</button>
-  </form>
+  </div>
+</div>
 {% endblock %}

@@ -13,7 +13,18 @@
     </div>
     <div class="row">
       <div class="col-md-8 offset-md-2">
-        {% block form %}{% endblock %}
+        <h4 class="mb-3">{% block form_header %}{% endblock %}</h4>
+        <form method="post" class="needs-validation" novalidate>
+          {% csrf_token %}
+          {% if form.non_field_errors %}
+            <div class="alert alert-danger" role="alert">
+              {{ form.non_field_errors }}
+            </div>
+          {% endif %}
+          {% block form_elements %}{% endblock %}
+          <hr class="mb-4">
+          <button class="btn btn-primary btn-lg btn-block" type="submit">Submit</button>
+        </form>
       </div>
     </div>
     <footer class="my-5 pt-5 text-muted text-center text-small">
