@@ -1,4 +1,5 @@
 from django import forms
+from django.db import IntegrityError
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 
@@ -33,16 +34,24 @@ class SchoolForm(CreateBaseForm):
                 'class': 'form-control'
             }))
 
+    def clean(self):
+        cleaned_data = super(SchoolForm, self).clean()
+        email = cleaned_data.get('email')
+        phone_number = '0' + str(cleaned_data.get('phone_number'))
+        password = cleaned_data.get('password')
+
+        try:
+            user = User.objects.create_user(phone_number, email, password)
+        except IntegrityError:
+            raise forms.ValidationError("Phone number already exists.")
+        else:
+            cleaned_data.update({'user': user})
+
+        return cleaned_data
+
     def save(self):
         data = self.cleaned_data
-        password = data['password']
-        email = data.get('email', None)
-        phone_number = '0' + str(data['phone_number'])
-        user = User.objects.create_user(phone_number, email, password)
-
         del data['password'], data['email'], data['phone_number']
-
-        data.update({'user': user})
         School.objects.create(**data)
 
 class PersonForm(forms.Form):

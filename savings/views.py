@@ -23,7 +23,7 @@ def login_redirect(request):
 
 def create_school(request):
     if request.method == 'POST':
-        form = SchoolForm(request.POST)
+        form = SchoolForm(request.POST, label_suffix='')
         if form.is_valid():
             form.save()
             return login_redirect(request)
