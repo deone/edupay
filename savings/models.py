@@ -105,5 +105,6 @@ class SavingPlan(DateCreated):
         ordering = ['-date_created']
 
 class Saving(DateCreated):
-    session = models.ForeignKey(Session)
+    session = models.ForeignKey(Session, null=True)
     saving_plan = models.ForeignKey(SavingPlan)
+    amount = models.PositiveSmallIntegerField()
