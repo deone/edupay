@@ -107,4 +107,4 @@ class SavingPlan(DateCreated):
 class Saving(DateCreated):
     session = models.ForeignKey(Session, null=True)
     saving_plan = models.ForeignKey(SavingPlan)
-    amount = models.PositiveSmallIntegerField()
+    amount = models.PositiveSmallIntegerField(null=True)
