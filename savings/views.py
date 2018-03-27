@@ -3,10 +3,14 @@ from __future__ import unicode_literals, division
 
 from django.db.models import Sum
 from django.conf import settings
+from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
+
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
 
 from models import Agent, Parent, Child, SavingPlan
 from forms import SchoolForm, AgentForm, ParentForm, AddChildForm, SavingPlanForm
@@ -91,3 +95,30 @@ def savings(request):
         'saving_plans': saving_plans
     })
     return render(request, 'savings/savings.html', context)
+
+@api_view(['GET'])
+def request_parent(request):
+    # <QueryDict: {u'phone_number': [u'08029299274']}>
+    phone_number = request.GET.get('phone_number')
+    if phone_number != None:
+        try:
+            user = User.objects.get(username=phone_number)
+        except User.DoesNotExist:
+            return Response({'error': 'Phone number not found'})
+
+        try:
+            parent = user.parent
+        except:
+            return Response({'error': 'Phone number does not belong to parent'})
+
+        return Response({
+            'phone_number': phone_number,
+            'name': parent.get_full_name(),
+            'contribution_amount': parent.savingplan_set.all()[0].contribution
+        })
+
+    return Response({'error': 'Parameter not found'})
+
+@api_view(['POST'])
+def record_payment(request):
+    print request.POST
