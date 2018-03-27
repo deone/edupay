@@ -14,6 +14,8 @@ urlpatterns = [
         'authentication_form': LoginForm
     }, name='login'),
     url(r'^logout$', auth_views.logout, {'next_page': '/'}, name='logout'),
+    url(r'^request_parent$', views.request_parent),
+    url(r'^record_payment$', views.record_payment),
 
     url(r'^dashboard/savings', views.savings, name='savings'),
     url(r'^dashboard', views.dashboard, name='dashboard'),
