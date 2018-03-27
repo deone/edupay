@@ -12,7 +12,7 @@ from django.contrib.auth.decorators import login_required
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
-from models import Agent, Parent, Child, SavingPlan
+from models import Agent, Parent, Child, SavingPlan, Saving
 from forms import SchoolForm, AgentForm, ParentForm, AddChildForm, SavingPlanForm
 
 def get_parent(user):
@@ -121,4 +121,16 @@ def request_parent(request):
 
 @api_view(['POST'])
 def record_payment(request):
-    print request.POST
+    # <QueryDict: {u'phone_number': [u'08022334455'], u'amount': [u'500']}>
+    phone_number = request.POST.get('phone_number')
+    amount = request.POST.get('amount')
+    if phone_number != None:
+        parent = User.objects.get(username=phone_number).parent
+        saving_plan = SavingPlan.objects.filter(parent=parent)[0]
+        Saving.objects.create(
+            saving_plan=saving_plan,
+            amount=amount
+            )
+        return Response({'success': 'Payment recorded'})
+    
+    return Response({'error': 'Parameter not found'})
