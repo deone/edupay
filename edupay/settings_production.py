@@ -2,4 +2,4 @@ from settings import *
 
 DEBUG = False
 
-STATIC_ROOT = '/home/sdarko/webapps/edupay_static'
+STATIC_ROOT = '/home/deone/webapps/edupay_static'
