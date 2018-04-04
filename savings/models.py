@@ -104,7 +104,10 @@ class SavingPlan(DateCreated):
     class Meta:
         ordering = ['-date_created']
 
+    def __str__(self):
+        return self.parent.get_full_name()
+
 class Saving(DateCreated):
-    session = models.ForeignKey(Session, null=True)
+    session = models.ForeignKey(Session, null=True, blank=True)
     saving_plan = models.ForeignKey(SavingPlan)
     amount = models.PositiveSmallIntegerField(null=True)
