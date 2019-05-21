@@ -25,7 +25,7 @@ SECRET_KEY = 'e$eq#2pio#syco4od!e0xg^3+^!d5y&q&!4i_e$75xcvmxr%p_'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [u'edupay-deone.c9users.io', u'deone.webfactional.com']
+ALLOWED_HOSTS = [u'68e50fdda6174336a839aba3aa5b73d7.vfs.cloud9.us-east-1.amazonaws.com', u'deone.webfactional.com']
 
 
 # Application definition
