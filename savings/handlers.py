@@ -1,4 +1,4 @@
-from models import Agent, Parent, SavingPlan, Saving
+from .models import Agent, Parent, SavingPlan, Saving
 
 class AgentHandler:
     @staticmethod

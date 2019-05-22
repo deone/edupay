@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from django.contrib import admin
 
-from models import School, Agent, Parent, SavingPlan, Saving
+from .models import School, Agent, Parent, SavingPlan, Saving
 
 class ParentAdmin(admin.ModelAdmin):
     list_display = ('first_name', 'last_name', 'house_address', 'work_address')

@@ -12,8 +12,8 @@ from django.contrib.auth.decorators import login_required
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
-from models import Agent, Parent, Child, SavingPlan, Saving
-from forms import SchoolForm, AgentForm, ParentForm, AddChildForm, SavingPlanForm
+from .models import Agent, Parent, Child, SavingPlan, Saving
+from .forms import SchoolForm, AgentForm, ParentForm, AddChildForm, SavingPlanForm
 
 def get_parent(user):
     return Parent.objects.get(user=user)

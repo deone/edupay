@@ -3,7 +3,7 @@ from django.db import IntegrityError
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 
-from models import School, Agent, Parent, Child, SavingPlan
+from .models import School, Agent, Parent, Child, SavingPlan
 
 from datetime import datetime
 

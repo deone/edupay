@@ -6,8 +6,8 @@ from rest_framework.decorators import api_view
 
 import neoutils
 
-import step
-from responses import ACTIONS
+from . import step
+from .responses import ACTIONS
 from savings.handlers import AgentHandler, ParentHandler
 
 from session.handlers import SessionHandler

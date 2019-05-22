@@ -1,4 +1,4 @@
-from responses import STEPS
+from .responses import STEPS
 
 # Step functions
 def one(instance, initiator, option):
